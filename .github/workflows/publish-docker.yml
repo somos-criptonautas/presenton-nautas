@@ -32,11 +32,11 @@ jobs:
         uses: docker/setup-compose-action@v2
 
       - name: Run Docker Compose services
-        run: docker-compose up -d
+        run: docker compose up -d
 
       # Optionally run tests inside a container, e.g.:
       # - name: Run tests
       #   run: docker-compose exec <service_name> <test_command>
 
       - name: Tear down Docker Compose services
-        run: docker-compose down
+        run: docker compose down
