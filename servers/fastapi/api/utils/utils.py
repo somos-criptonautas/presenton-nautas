@@ -23,30 +23,48 @@ def is_ollama_selected() -> bool:
 
 def get_large_model():
     selected_llm = os.getenv("LLM")
+    if os.getenv("CUSTOM_OPENAI_ENDPOINT"):
+        return ChatOpenAI(
+            model=os.getenv("CUSTOM_OPENAI_MODEL"),
+            api_key=os.getenv("CUSTOM_OPENAI_KEY"),
+            base_url=os.getenv("CUSTOM_OPENAI_ENDPOINT"),
+        )
     if selected_llm == "openai":
-        return ChatOpenAI(model="gpt-4.1")
+        return ChatOpenAI(model="gpt-4o")
     elif selected_llm == "google":
-        return ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+        return ChatGoogleGenerativeAI(model="gemini-1.5-flash")
     else:
         return ChatOllama(model=os.getenv("OLLAMA_MODEL"), temperature=0.8)
 
 
 def get_small_model():
     selected_llm = os.getenv("LLM")
+    if os.getenv("CUSTOM_OPENAI_ENDPOINT"):
+        return ChatOpenAI(
+            model=os.getenv("CUSTOM_OPENAI_MODEL"),
+            api_key=os.getenv("CUSTOM_OPENAI_KEY"),
+            base_url=os.getenv("CUSTOM_OPENAI_ENDPOINT"),
+        )
     if selected_llm == "openai":
-        return ChatOpenAI(model="gpt-4.1-mini")
+        return ChatOpenAI(model="gpt-4o-mini")
     elif selected_llm == "google":
-        return ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+        return ChatGoogleGenerativeAI(model="gemini-1.5-flash")
     else:
         return ChatOllama(model=os.getenv("OLLAMA_MODEL"), temperature=0.8)
 
 
 def get_nano_model():
     selected_llm = os.getenv("LLM")
+    if os.getenv("CUSTOM_OPENAI_ENDPOINT"):
+        return ChatOpenAI(
+            model=os.getenv("CUSTOM_OPENAI_MODEL"),
+            api_key=os.getenv("CUSTOM_OPENAI_KEY"),
+            base_url=os.getenv("CUSTOM_OPENAI_ENDPOINT"),
+        )
     if selected_llm == "openai":
-        return ChatOpenAI(model="gpt-4.1-nano")
+        return ChatOpenAI(model="gpt-4o-mini")
     elif selected_llm == "google":
-        return ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+        return ChatGoogleGenerativeAI(model="gemini-1.5-flash")
     else:
         return ChatOllama(model=os.getenv("OLLAMA_MODEL"), temperature=0.8)
 
@@ -82,7 +100,14 @@ def get_user_config():
         OPENAI_API_KEY=existing_config.OPENAI_API_KEY or os.getenv("OPENAI_API_KEY"),
         GOOGLE_API_KEY=existing_config.GOOGLE_API_KEY or os.getenv("GOOGLE_API_KEY"),
         OLLAMA_MODEL=existing_config.OLLAMA_MODEL or os.getenv("OLLAMA_MODEL"),
-        PEXELS_API_KEY=existing_config.PEXELS_API_KEY or os.getenv("PEXELS_API_KEY"),
+        PEXELS_API_KEY=existing_config.PEXELS_API_KEY
+        or os.getenv("PEXELS_API_KEY"),
+        CUSTOM_OPENAI_ENDPOINT=existing_config.CUSTOM_OPENAI_ENDPOINT
+        or os.getenv("CUSTOM_OPENAI_ENDPOINT"),
+        CUSTOM_OPENAI_MODEL=existing_config.CUSTOM_OPENAI_MODEL
+        or os.getenv("CUSTOM_OPENAI_MODEL"),
+        CUSTOM_OPENAI_KEY=existing_config.CUSTOM_OPENAI_KEY
+        or os.getenv("CUSTOM_OPENAI_KEY"),
     )
 
 
@@ -98,6 +123,12 @@ def update_env_with_user_config():
         os.environ["OLLAMA_MODEL"] = user_config.OLLAMA_MODEL
     if user_config.PEXELS_API_KEY:
         os.environ["PEXELS_API_KEY"] = user_config.PEXELS_API_KEY
+    if user_config.CUSTOM_OPENAI_ENDPOINT:
+        os.environ["CUSTOM_OPENAI_ENDPOINT"] = user_config.CUSTOM_OPENAI_ENDPOINT
+    if user_config.CUSTOM_OPENAI_MODEL:
+        os.environ["CUSTOM_OPENAI_MODEL"] = user_config.CUSTOM_OPENAI_MODEL
+    if user_config.CUSTOM_OPENAI_KEY:
+        os.environ["CUSTOM_OPENAI_KEY"] = user_config.CUSTOM_OPENAI_KEY
 
 
 def get_resource(relative_path):

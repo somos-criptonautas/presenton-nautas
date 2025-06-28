@@ -64,6 +64,9 @@ class UserConfig(BaseModel):
     GOOGLE_API_KEY: Optional[str] = None
     OLLAMA_MODEL: Optional[str] = None
     PEXELS_API_KEY: Optional[str] = None
+    CUSTOM_OPENAI_ENDPOINT: Optional[str] = None
+    CUSTOM_OPENAI_MODEL: Optional[str] = None
+    CUSTOM_OPENAI_KEY: Optional[str] = None
 
 
 class OllamaModelMetadata(BaseModel):
